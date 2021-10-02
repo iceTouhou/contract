@@ -8,7 +8,7 @@ contract IceTouhouDrawLots {
     bool public projectLock;
     uint256[] public participants;
     
-    event Shuffle(address from, address to, uint amount);
+    event Shuffle(address operator,uint256[] participants);
 
     constructor(uint _participantsAmount) {
         adminer = msg.sender;
@@ -28,6 +28,8 @@ contract IceTouhouDrawLots {
             participants[n] = participants[i];
             participants[i] = temp;
         }
+        
+        emit Shuffle(msg.sender,participants);
 
         projectLock = true;
     }
