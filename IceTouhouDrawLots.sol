@@ -8,7 +8,7 @@ contract IceTouhouDrawLots {
     bool public projectLock;
     uint256[] public participants;
     
-    event GenRandom(address from, address to, uint amount);
+    event Shuffle(address from, address to, uint amount);
 
     constructor(uint _participantsAmount) {
         adminer = msg.sender;
@@ -19,8 +19,8 @@ contract IceTouhouDrawLots {
     }
     
     function shuffle() external {
-        require(msg.sender == adminer);
-        require(projectLock == false);
+        require(msg.sender == adminer, "");
+        require(projectLock == false, "");
 
         for (uint256 i = 0; i < participants.length; i++) {
             uint256 n = i + uint256(keccak256(abi.encodePacked(block.timestamp))) % (participants.length - i);
@@ -30,5 +30,9 @@ contract IceTouhouDrawLots {
         }
 
         projectLock = true;
+    }
+    
+    function getParticipants() public view returns (uint256[] memory){
+        return participants;
     }
 }
